@@ -8,8 +8,8 @@ sources:
       - name: sales
         identifier: raw_gz_sales
         description: sales of greenweez / we have one row products_id found in each orders
-        freshness: 
-          warn_after: {count: 90, period: day}
+        freshness:
+          warn_after: { count: 90, period: day }
         loaded_at_field: "CAST(date_date AS TIMESTAMP)"
         tests:
           - unique:
