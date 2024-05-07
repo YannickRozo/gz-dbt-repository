@@ -32,3 +32,57 @@ sources:
               column_name: "orders_id"
           - not_null:
               column_name: "orders_id"
+
+models:
+  - name: int_sales_margin
+    description: margin per sales
+    tests:
+      - unique:
+          column_name: "(orders_id||'-'||products_id)"
+      - not_null:
+           column_name:
+            - "(orders_id||'-'||products_id)"
+            - date_date
+            - orders_id
+            - products_id
+            - revenue
+            - purchase_price
+            - quantity
+            - purchase_cost
+            - margin
+  - name: int_orders_margin
+    description: margin per orders
+    tests:
+      - unique:
+          column_name: orders_id
+      - not_null:
+           column_name:
+            - orders_id
+            - date_date
+            - revenue
+            - quantity
+            - purchase_cost
+            - margin
+  - name: int_orders_operationel
+    description: operationale margin per orders
+    tests:
+      - unique:
+          column_name: orders_id
+      - not_null:
+           column_name:
+            - orders_id
+            - date_date
+            - operational_margin
+  - name: finance_days
+    description: kpis per days
+    tests:
+      - unique:
+          column_name: date_date
+      - not_null:
+           column_name:
+            - date_date
+            - nb_transactions
+            - revenue
+            - average_basket
+            - margin
+            - operational_margin
