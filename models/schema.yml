@@ -1,0 +1,88 @@
+version: 2
+
+sources:
+  - name: raw
+    schema: gz_raw_data
+    description: greenweez raw data source
+    tables:
+      - name: sales
+        identifier: raw_gz_sales
+        description: sales of greenweez / we have one row products_id found in each orders
+        freshness:
+          warn_after: { count: 90, period: day }
+        loaded_at_field: "CAST(date_date AS TIMESTAMP)"
+        tests:
+          - unique:
+              column_name: "(orders_id||'-'||pdt_id)"
+          - not_null:
+              column_name: "(orders_id||'-'||pdt_id)"
+      - name: product
+        identifier: raw_gz_product
+        description: products of greenweez
+        tests:
+          - unique:
+              column_name: "products_id"
+          - not_null:
+              column_name: "products_id"
+      - name: ship
+        identifier: raw_gz_ship
+        description: ships of greenweez
+        tests:
+          - unique:
+              column_name: "orders_id"
+          - not_null:
+              column_name: "orders_id"
+
+models:
+  - name: int_sales_margin
+    description: margin per sales
+    tests:
+      - unique:
+          column_name: "(orders_id||'-'||products_id)"
+      - not_null:
+           column_name:
+            - "(orders_id||'-'||products_id)"
+            - date_date
+            - orders_id
+            - products_id
+            - revenue
+            - purchase_price
+            - quantity
+            - purchase_cost
+            - margin
+  - name: int_orders_margin
+    description: margin per orders
+    tests:
+      - unique:
+          column_name: orders_id
+      - not_null:
+           column_name:
+            - orders_id
+            - date_date
+            - revenue
+            - quantity
+            - purchase_cost
+            - margin
+  - name: int_orders_operationel
+    description: operationale margin per orders
+    tests:
+      - unique:
+          column_name: orders_id
+      - not_null:
+           column_name:
+            - orders_id
+            - date_date
+            - operational_margin
+  - name: finance_days
+    description: kpis per days
+    tests:
+      - unique:
+          column_name: date_date
+      - not_null:
+           column_name:
+            - date_date
+            - nb_transactions
+            - revenue
+            - average_basket
+            - margin
+            - operational_margin
