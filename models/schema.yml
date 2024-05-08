@@ -32,6 +32,23 @@ sources:
               column_name: "orders_id"
           - not_null:
               column_name: "orders_id"
+      - name: adworks
+        identifier: raw_gz_adworks
+        description: stats of adworks
+        # tests:
+        #   - unique:
+        #       column_name: "orders_id"
+        #   - not_null:
+        #       column_name: "orders_id"
+      - name: bing
+        identifier: raw_gz_bing
+        description: stats of bing
+      - name: criteo
+        identifier: raw_gz_criteo
+        description: stats of criteo
+      - name: facebook
+        identifier: raw_gz_facebook
+        description: stats of facebook
 
 models:
   - name: int_sales_margin
@@ -73,6 +90,32 @@ models:
             - orders_id
             - date_date
             - operational_margin
+  - name: int_campaigns
+    description: union stats campaigns
+    tests:
+      - unique:
+          column_name: "(date_date||'-'||campaign_key)"
+      - not_null:
+           column_name:
+            - "(date_date||'-'||campaign_key)"
+            - date_date
+            - paid_source
+            - campaign_key
+            - campaing_name
+            - ads_cost
+            - impression
+            - click
+  - name: int_campaigns_days
+    description: stats campaigns per days
+    tests:
+      - unique:
+          column_name: date_date
+      - not_null:
+           column_name:
+            - date_date
+            - ads_cost
+            - ads_impression
+            - ads_clicks
   - name: finance_days
     description: kpis per days
     tests:
@@ -85,4 +128,15 @@ models:
             - revenue
             - average_basket
             - margin
+            - operational_margin
+  - name: finance_campaigns_days
+    description: kpis with ads margin per days
+    tests:
+      - unique:
+          column_name: date_date
+      - not_null:
+           column_name:
+            - date_date
+            - ads_margin
+            - average_basket
             - operational_margin
