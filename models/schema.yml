@@ -49,6 +49,7 @@ sources:
       - name: facebook
         identifier: raw_gz_facebook
         description: stats of facebook
+
 models:
   - name: int_sales_margin
     description: margin per sales
@@ -89,6 +90,32 @@ models:
             - orders_id
             - date_date
             - operational_margin
+  - name: int_campaigns
+    description: union stats campaigns
+    tests:
+      - unique:
+          column_name: "(date_date||'-'||campaign_key)"
+      - not_null:
+           column_name:
+            - "(date_date||'-'||campaign_key)"
+            - date_date
+            - paid_source
+            - campaign_key
+            - campaing_name
+            - ads_cost
+            - impression
+            - click
+  - name: int_campaigns_days
+    description: stats campaigns per days
+    tests:
+      - unique:
+          column_name: date_date
+      - not_null:
+           column_name:
+            - date_date
+            - ads_cost
+            - ads_impression
+            - ads_clicks
   - name: finance_days
     description: kpis per days
     tests:
