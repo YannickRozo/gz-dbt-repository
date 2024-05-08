@@ -32,7 +32,23 @@ sources:
               column_name: "orders_id"
           - not_null:
               column_name: "orders_id"
-
+      - name: adworks
+        identifier: raw_gz_adworks
+        description: stats of adworks
+        # tests:
+        #   - unique:
+        #       column_name: "orders_id"
+        #   - not_null:
+        #       column_name: "orders_id"
+      - name: bing
+        identifier: raw_gz_bing
+        description: stats of bing
+      - name: criteo
+        identifier: raw_gz_criteo
+        description: stats of criteo
+      - name: facebook
+        identifier: raw_gz_facebook
+        description: stats of facebook
 models:
   - name: int_sales_margin
     description: margin per sales
