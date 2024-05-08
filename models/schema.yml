@@ -129,3 +129,14 @@ models:
             - average_basket
             - margin
             - operational_margin
+  - name: finance_campaigns_days
+    description: kpis with ads margin per days
+    tests:
+      - unique:
+          column_name: date_date
+      - not_null:
+           column_name:
+            - date_date
+            - ads_margin
+            - average_basket
+            - operational_margin
